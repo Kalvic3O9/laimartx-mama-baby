@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
@@ -17,9 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen font-sans antialiased">
         <CartProvider>
           <Header />
-          <main>{children}</main>
+          <main className="pb-24 lg:pb-0">{children}</main>
           <Footer />
           <FloatingWhatsApp />
+          <MobileBottomNav />
         </CartProvider>
       </body>
     </html>
