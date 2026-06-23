@@ -1,0 +1,7 @@
+.next/
+node_modules/
+.vercel/
+.env*.local
+tsconfig.tsbuildinfo
+work/*.log
+work/*.err.log
