@@ -127,4 +127,9 @@ NEXT_PUBLIC_SITE_URL=https://your-vercel-domain.vercel.app
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 NEXT_PUBLIC_WHATSAPP_NUMBER=256700000000
+ADMIN_EMAIL=admin@laimartx.co.ug
+ADMIN_PASSWORD=use-a-strong-private-password
+ADMIN_SESSION_SECRET=use-a-long-random-secret
 ```
+
+`ADMIN_EMAIL` and `ADMIN_PASSWORD` control `/admin/login`. `ADMIN_SESSION_SECRET` is used to sign the admin session cookie; use a long random value and keep it private.

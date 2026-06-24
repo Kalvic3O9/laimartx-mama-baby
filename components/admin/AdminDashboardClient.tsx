@@ -34,9 +34,16 @@ export function AdminDashboardClient() {
           <p className="text-sm font-black uppercase text-cocoa">Admin dashboard</p>
           <h1 className="mt-2 text-4xl font-black">Sales and orders</h1>
         </div>
-        <Link href="/admin/products" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-ink px-6 font-black text-white">
-          Manage products
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link href="/admin/products" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-ink px-6 font-black text-white">
+            Manage products
+          </Link>
+          <form action="/api/admin/logout" method="post">
+            <button className="focus-ring inline-flex min-h-12 w-full items-center justify-center rounded-full bg-white px-6 font-black text-ink ring-1 ring-ink/10 hover:bg-cream" type="submit">
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

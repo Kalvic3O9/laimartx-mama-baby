@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Edit3, Plus, Trash2 } from "lucide-react";
 import { formatUgx } from "@/lib/brand";
@@ -29,9 +30,21 @@ export function AdminProductsClient() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div>
-        <p className="text-sm font-black uppercase text-cocoa">Admin products</p>
-        <h1 className="mt-2 text-4xl font-black">Packages and stock</h1>
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p className="text-sm font-black uppercase text-cocoa">Admin products</p>
+          <h1 className="mt-2 text-4xl font-black">Packages and stock</h1>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link href="/admin" className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 font-black text-ink ring-1 ring-ink/10 hover:bg-cream">
+            Dashboard
+          </Link>
+          <form action="/api/admin/logout" method="post">
+            <button className="focus-ring inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ink px-6 font-black text-white hover:bg-cocoa" type="submit">
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
 
       <div className="mt-8 rounded-[28px] bg-white p-5 shadow-soft">
