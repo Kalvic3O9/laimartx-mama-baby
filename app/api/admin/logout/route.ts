@@ -9,6 +9,15 @@ export async function POST(request: Request) {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0
+  });
+  response.cookies.set({
+    name: adminCookieName,
+    value: "",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     path: "/admin",
     maxAge: 0
   });

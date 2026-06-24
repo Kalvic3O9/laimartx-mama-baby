@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen font-sans antialiased">
         <CartProvider>
           <Header />
+          <AdminToolbar />
           <main className="pb-24 lg:pb-0">{children}</main>
           <Footer />
           <FloatingWhatsApp />

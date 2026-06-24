@@ -1,9 +1,8 @@
-import { ProductCard } from "@/components/ProductCard";
-import { categories, products } from "@/lib/products";
+import { ProductGrid } from "@/components/ProductGrid";
+import { categories } from "@/lib/products";
 
 export default function ShopPage({ searchParams }: { searchParams: { category?: string } }) {
   const selected = searchParams.category;
-  const visibleProducts = selected ? products.filter((product) => product.category === selected) : products;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -22,10 +21,8 @@ export default function ShopPage({ searchParams }: { searchParams: { category?: 
           </a>
         ))}
       </div>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visibleProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="mt-8">
+        <ProductGrid category={selected} />
       </div>
     </section>
   );

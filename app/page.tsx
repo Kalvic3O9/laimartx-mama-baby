@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
-import { ProductCard } from "@/components/ProductCard";
+import { ProductGrid } from "@/components/ProductGrid";
 import { brand } from "@/lib/brand";
-import { products } from "@/lib/products";
 
 export default function HomePage() {
   return (
@@ -25,11 +24,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ProductGrid compact />
       </section>
     </>
   );
