@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 import { brand, formatUgx, whatsappUrl } from "@/lib/brand";
@@ -13,20 +12,21 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <>
-      <article className="grid grid-cols-[116px_1fr] overflow-hidden rounded-[22px] bg-white shadow-soft ring-1 ring-ink/5 sm:block sm:rounded-[24px]">
-        <div className="relative min-h-full overflow-hidden bg-mint sm:aspect-[4/3]">
-          <Image src={product.image} alt={product.name} fill className="object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+      <article className="grid grid-cols-[116px_1fr] overflow-hidden rounded-[22px] bg-white shadow-soft ring-1 ring-ink/5 sm:flex sm:h-full sm:flex-col sm:rounded-[24px]">
+        <div className="relative min-h-[156px] overflow-hidden bg-mint sm:h-44 sm:min-h-0 lg:h-48">
+          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
         </div>
-        <div className="grid gap-2 p-3 sm:gap-3 sm:p-4">
+        <div className="grid h-full gap-2 p-3 sm:flex sm:flex-1 sm:flex-col sm:gap-3 sm:p-4">
           <div>
             <h3 className="text-base font-black leading-tight">{product.name}</h3>
             <div className="mt-1 flex items-end gap-2">
               <p className="text-lg font-black">{formatUgx(product.price)}</p>
               {product.compareAtPrice ? <p className="pb-0.5 text-xs text-ink/45 line-through">{formatUgx(product.compareAtPrice)}</p> : null}
             </div>
+            <p className="mt-2 line-clamp-2 text-sm leading-5 text-ink/65">{product.description}</p>
           </div>
-          <button onClick={() => setOpen(true)} className="focus-ring min-h-11 rounded-full bg-ink px-5 text-sm font-black text-white transition hover:bg-cocoa">
-            View Details
+          <button onClick={() => setOpen(true)} className="focus-ring mt-auto min-h-11 rounded-full bg-ink px-5 text-sm font-black text-white transition hover:bg-cocoa">
+            View Products
           </button>
         </div>
       </article>
@@ -43,7 +43,7 @@ export function ProductCard({ product }: { product: Product }) {
               </div>
               <div className="p-5">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-mint">
-                  <Image src={product.image} alt={product.name} fill className="object-cover" sizes="(min-width: 640px) 520px, 100vw" />
+                  <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
                 </div>
                 <p className="mt-4 text-2xl font-black">{formatUgx(product.price)}</p>
                 <p className="mt-3 text-sm leading-6 text-ink/70">{product.description}</p>

@@ -13,6 +13,8 @@ type ProductDraft = {
   stock: string;
   category: ProductCategory;
   image: string;
+  description: string;
+  includes: string;
 };
 
 const fallbackImage = "/images/hero-care-packages.png";
@@ -22,7 +24,9 @@ const emptyDraft: ProductDraft = {
   price: "",
   stock: "",
   category: categories[0],
-  image: fallbackImage
+  image: fallbackImage,
+  description: "",
+  includes: ""
 };
 
 function productToDraft(product: Product): ProductDraft {
@@ -31,7 +35,9 @@ function productToDraft(product: Product): ProductDraft {
     price: String(product.price),
     stock: String(product.stock),
     category: product.category,
-    image: product.image || fallbackImage
+    image: product.image || fallbackImage,
+    description: product.description,
+    includes: product.includes.join("\n")
   };
 }
 
@@ -55,8 +61,8 @@ export function AdminProductsClient() {
       stock: Number(draft.stock || 0),
       category: draft.category,
       image: draft.image || fallbackImage,
-      description: "New package draft. Edit this description in the database after Supabase is connected.",
-      includes: ["Item one", "Item two", "Item three"],
+      description: draft.description || "New package draft.",
+      includes: draft.includes.split("\n").map((item) => item.trim()).filter(Boolean),
       tags: ["draft"]
     };
     saveProducts([product, ...products]);
@@ -78,7 +84,9 @@ export function AdminProductsClient() {
       price: Number(editDraft.price),
       stock: Number(editDraft.stock || 0),
       category: editDraft.category,
-      image: editDraft.image || fallbackImage
+      image: editDraft.image || fallbackImage,
+      description: editDraft.description,
+      includes: editDraft.includes.split("\n").map((item) => item.trim()).filter(Boolean)
     };
 
     saveProducts(products.map((product) => (product.id === editingProduct.id ? updatedProduct : product)));
@@ -125,25 +133,38 @@ export function AdminProductsClient() {
           </button>
         </div>
         <input className="focus-ring mt-3 min-h-12 w-full rounded-2xl border border-ink/10 bg-cream px-4" placeholder="Image path or URL" value={draft.image} onChange={(event) => setDraft({ ...draft, image: event.target.value })} />
+        <textarea className="focus-ring mt-3 min-h-24 w-full rounded-2xl border border-ink/10 bg-cream px-4 py-3" placeholder="Short description" value={draft.description} onChange={(event) => setDraft({ ...draft, description: event.target.value })} />
+        <textarea className="focus-ring mt-3 min-h-28 w-full rounded-2xl border border-ink/10 bg-cream px-4 py-3" placeholder="Package contents, one item per line" value={draft.includes} onChange={(event) => setDraft({ ...draft, includes: event.target.value })} />
         <p className="mt-3 text-sm text-ink/60">Image upload is represented in the UI and schema; connect Supabase Storage before launch.</p>
       </div>
 
-      <div className="mt-6 grid gap-4">
+      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {products.map((product) => (
-          <div key={product.id} className="grid gap-4 rounded-[24px] bg-white p-5 shadow-soft md:grid-cols-[1fr_auto_auto_auto] md:items-center">
-            <div>
-              <p className="font-black">{product.name}</p>
-              <p className="mt-1 text-sm text-ink/60">{product.category}</p>
+          <div key={product.id} className="overflow-hidden rounded-[24px] bg-white shadow-soft ring-1 ring-ink/5">
+            <div className="relative aspect-[4/3] bg-mint">
+              <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
             </div>
-            <p className="font-bold">{formatUgx(product.price)}</p>
-            <p className="rounded-full bg-cream px-4 py-2 text-sm font-bold">{product.stock} in stock</p>
-            <div className="flex gap-2">
-              <button onClick={() => openEdit(product)} className="focus-ring grid size-10 place-items-center rounded-full bg-mint" aria-label={`Edit ${product.name}`}>
-                <Edit3 className="size-4" />
-              </button>
-              <button onClick={() => deleteProduct(product.id)} className="focus-ring grid size-10 place-items-center rounded-full bg-blush/60" aria-label={`Delete ${product.name}`}>
-                <Trash2 className="size-4" />
-              </button>
+            <div className="grid gap-3 p-4">
+              <div>
+                <p className="text-xs font-black uppercase text-cocoa">{product.category}</p>
+                <h2 className="mt-1 text-lg font-black leading-tight">{product.name}</h2>
+                <p className="mt-1 text-lg font-black">{formatUgx(product.price)}</p>
+                <p className="mt-2 line-clamp-2 text-sm leading-5 text-ink/65">{product.description}</p>
+                <p className="mt-2 text-sm font-bold text-sage">{product.stock} in stock</p>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto]">
+                <Link href="/shop" className="focus-ring inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-4 text-sm font-black text-white">
+                  View Products
+                </Link>
+                <button onClick={() => openEdit(product)} className="focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-mint px-4 text-sm font-black text-ink" aria-label={`Edit ${product.name}`}>
+                  <Edit3 className="size-4" />
+                  Edit
+                </button>
+                <button onClick={() => deleteProduct(product.id)} className="focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-blush/60 px-4 text-sm font-black text-ink" aria-label={`Delete ${product.name}`}>
+                  <Trash2 className="size-4" />
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -189,6 +210,14 @@ export function AdminProductsClient() {
                 <label>
                   <span className="text-sm font-bold">Image</span>
                   <input className="focus-ring mt-2 min-h-12 w-full rounded-2xl border border-ink/10 bg-cream px-4" value={editDraft.image} onChange={(event) => setEditDraft({ ...editDraft, image: event.target.value })} />
+                </label>
+                <label>
+                  <span className="text-sm font-bold">Short description</span>
+                  <textarea className="focus-ring mt-2 min-h-24 w-full rounded-2xl border border-ink/10 bg-cream px-4 py-3" value={editDraft.description} onChange={(event) => setEditDraft({ ...editDraft, description: event.target.value })} />
+                </label>
+                <label>
+                  <span className="text-sm font-bold">Package contents</span>
+                  <textarea className="focus-ring mt-2 min-h-32 w-full rounded-2xl border border-ink/10 bg-cream px-4 py-3" value={editDraft.includes} onChange={(event) => setEditDraft({ ...editDraft, includes: event.target.value })} />
                 </label>
               </div>
 
